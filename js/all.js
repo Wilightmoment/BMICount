@@ -28,7 +28,9 @@ el_weight.addEventListener('change', function (e) {
  })
 
  btn.addEventListener('click', compute)
- restrat.addEventListener('click', function () {showMes(false)})
+ restrat.addEventListener('click', function () {
+     showMes(false)
+})
  card_list.addEventListener('click', function (e) {
     if (e.target.className === 'remove') {
         let temp = JSON.parse(localStorage.getItem('record'))
@@ -47,7 +49,6 @@ el_weight.addEventListener('change', function (e) {
      BMI = weight / ((height/100) * (height/100))
      BMI = BMI.toFixed(2)
      compare(BMI)
-     addCard()
  }
 
  function compare (BMI) {
@@ -65,7 +66,9 @@ el_weight.addEventListener('change', function (e) {
     } else {
         status = heavy['ervere']
     }
+    status = status.slice(0, 2)
     showMes()
+    addCard()
  }
 
  function showMes (show = true) {
@@ -101,7 +104,7 @@ el_weight.addEventListener('change', function (e) {
      card.setAttribute('id', status[6])
      card.innerHTML = `
         <div class="color" style="background-color: ${status[0]}"></div>
-        <div class="result">${status[1]}</div>
+        <div class="result" style="min-width: 80px">${status[1]}</div>
         <div class="group">
             <div class="lab">BMI</div>
             <div class="result">${status[2]}</div>
