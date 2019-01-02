@@ -3,6 +3,11 @@
           box-sizing: border-box !important;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+
 body, html {
   margin: 0;
 }
@@ -161,11 +166,14 @@ header .btn:active {
   background-color: #fff;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  -ms-flex-line-pack: center;
-      align-content: center;
   color: #4a4a4a;
   margin-bottom: 1.6%;
   padding: 2.1% 0;
+}
+
+.card-list .card:hover .remove {
+  right: 0;
+  opacity: 1;
 }
 
 .card-list .card .group {
@@ -193,6 +201,22 @@ header .btn:active {
   left: 0;
   width: 7px;
   height: 100%;
+}
+
+.card-list .card .remove {
+  position: absolute;
+  right: -100px;
+  top: 50%;
+  padding: 15px;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  background-color: #db3f3f;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-transition: 0.8s;
+  transition: 0.8s;
+  opacity: 0;
 }
 
 footer {

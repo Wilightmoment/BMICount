@@ -5,6 +5,7 @@ const BMI_status = document.querySelector('.btn-status')
 const restrat = document.querySelector('.icon')
 const BMI_text = document.querySelector('.BMI-text')
 const card_list = document.querySelector('.card-list')
+
 let height, weight, BMI, status = [], datas = new Set()
 const heavy = {
     'init' : ['#86D73E', '理想'],
@@ -28,6 +29,14 @@ el_weight.addEventListener('change', function (e) {
 
  btn.addEventListener('click', compute)
  restrat.addEventListener('click', function () {showMes(false)})
+ card_list.addEventListener('click', function (e) {
+    if (e.target.className === 'remove') {
+        let temp = JSON.parse(localStorage.getItem('record'))
+        temp = temp.filter(m=>m[6]!==e.target.parentElement.id)
+        localStorage.setItem('record', JSON.stringify(temp))
+        location.reload()
+    }
+ })
 
  function compute () {
      document.getElementById('msg').textContent = ''
@@ -73,6 +82,8 @@ el_weight.addEventListener('change', function (e) {
          BMI_status.style.display = 'none'
          btn.style.display = 'block'
          BMI_text.textContent = ''
+         el_height.value = null
+         el_weight.value = null
      }
  }
 
@@ -82,10 +93,12 @@ el_weight.addEventListener('change', function (e) {
      status.push(weight)
      status.push(height)
      status.push(`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`)
+     status.push(Math.floor(date.getTime() / 1000).toString())
      datas.add(status)
      localStorage.setItem('record', JSON.stringify([...datas]))
      let card = document.createElement('div')
      card.setAttribute('class', 'card')
+     card.setAttribute('id', status[6])
      card.innerHTML = `
         <div class="color" style="background-color: ${status[0]}"></div>
         <div class="result">${status[1]}</div>
@@ -102,6 +115,7 @@ el_weight.addEventListener('change', function (e) {
             <div class="result">${status[4]}cm</div>
         </div>
         <div class="lab">${status[5]}</div>
+        <div class="remove">刪除此紀錄</div>
      `
      card_list.appendChild(card)
  }
@@ -112,9 +126,10 @@ el_weight.addEventListener('change', function (e) {
          for (let item of temp) {
             let card = document.createElement('div')
             card.setAttribute('class', 'card')
+            card.setAttribute('id', item[6])
             card.innerHTML = `
                <div class="color" style="background-color: ${item[0]}"></div>
-               <div class="result">${item[1]}</div>
+               <div class="result" style="min-width: 80px">${item[1]}</div>
                <div class="group">
                    <div class="lab">BMI</div>
                    <div class="result">${item[2]}</div>
@@ -128,6 +143,7 @@ el_weight.addEventListener('change', function (e) {
                    <div class="result">${item[4]}cm</div>
                </div>
                <div class="lab">${item[5]}</div>
+               <div class="remove">刪除此紀錄</div>
             `
             card_list.appendChild(card)
             datas.add(item)
